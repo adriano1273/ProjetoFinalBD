@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Livros{% endblock %}</h1>
+<a class="action" href="{{ url_for('livro.create') }}">Novo Livro</a>
+{% endblock %}
+
+{% block content %}
+{% for livro in livros %}
+<article class="livro">
+    <header>
+        <div>
+            <h1>{{ livro['titulo'] }}</h1>
+            <div class="about">de: {{ livro['autor'] }}</div>
+            <p></p>
+            <div class="from">data da aquisição: {{ livro['data_aquisicao'] }}</div>
+            <p></p>
+        </div>
+    </header>
+    <p class="body">{{ livro['descricao'] }}</p>
+    <p></p>
+    <a class="action" href="{{ url_for('livro.update', ISBN=livro['ISBN']) }}">Editar</a>
+</article>
+{% if not loop.last %}
+<hr>
+{% endif %}
+{% endfor %}
+{% endblock %}
