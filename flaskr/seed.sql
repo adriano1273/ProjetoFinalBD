@@ -5,9 +5,9 @@ INSERT INTO Categoria (id, nome) VALUES (1, 'Distopia');
 INSERT INTO Categoria (id, nome) VALUES (4, 'Educacional');
 
 -- Table: Emprestimo
-INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (1, 2, '20-11-2022', '20-12-2022', 'Atrasado');
-INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (2, 3, '20-01-2021', '20-02-2021', 'Devolvido');
-INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (3, 3, '20-02-2021', '20-03-2021', 'Emprestado');
+INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (1, 2, '2022-05-09', '2022-12-12', 'Atrasado');
+INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (2, 3, '2021-05-09', '2022-02-12', 'Devolvido');
+INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (3, 3, '2022-01-09', '2022-03-12', 'Emprestado');
 
 -- Table: Item_emprestimo
 INSERT INTO Item_emprestimo (id, id_livro, id_material) VALUES (1, 1, NULL);
