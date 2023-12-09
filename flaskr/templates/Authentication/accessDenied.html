@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Acesso Negado!{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div>
+        <p>
+            Voce não tem acesso a esta operação
+        </p>
+    </div>
+</header>
+<a class="action" href="{{ url_for('home.home') }}">Voltar</a>
+{% endblock %}

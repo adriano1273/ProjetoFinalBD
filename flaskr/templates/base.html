@@ -2,14 +2,16 @@
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-    <h1>Flaskr</h1>
+    <h1>ProjetoDB</h1>
     <ul>
         {% if g.user %}
         <li><span>{{ g.user['nome'] }}</span>
         <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
             {% else %}
-        <li><a href="{{ url_for('auth.register') }}">Registrar-se</a>
         <li><a href="{{ url_for('auth.login') }}">Log In</a>
+            {% endif %}
+            {% if g.user['funcao'] == 'admin' %}
+        <li><a href="{{ url_for('auth.register') }}">Registrar novo usuário</a>
             {% endif %}
     </ul>
 </nav>

@@ -9,7 +9,18 @@ from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+def admin_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user['funcao'] != 'admin':
+            return render_template('Authentication/accessDenied.html')
+
+        return view(**kwargs)
+
+    return wrapped_view
+
 @bp.route('/register', methods=('GET', 'POST'))
+@admin_required
 def register():
     if request.method == 'POST':
         nome = request.form['nome']
@@ -94,4 +105,5 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
 
