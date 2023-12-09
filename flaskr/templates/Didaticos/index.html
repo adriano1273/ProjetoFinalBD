@@ -24,6 +24,11 @@
                     <p>Categoria: {{ categoria['nome'] }}</p>
                 {% endif %}
             {% endfor %}
+            {% for local in locais %}
+                {% if local['id'] == didatico['localizacao_fisica'] %}
+                    <p>local: {{ local['nome'] }}</p>
+                {% endif %}
+            {% endfor %}
             <p></p>
         </div>
     </header>

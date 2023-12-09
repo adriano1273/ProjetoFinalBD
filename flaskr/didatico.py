@@ -14,12 +14,17 @@ def index():
     db = get_db()
     didaticos = db.execute('SELECT * FROM materiais_didaticos').fetchall()
     categorias = db.execute('SELECT * FROM categoria').fetchall()
-    return render_template('Didaticos/index.html', didaticos=didaticos, categorias=categorias)
+    locais = db.execute('SELECT * FROM local_fisico').fetchall()
+    return render_template('Didaticos/index.html', didaticos=didaticos, categorias=categorias, locais=locais)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 @admin_required
 def create():
+    locais = get_db().execute(
+        'SELECT * FROM local_fisico',
+    ).fetchall()
+
     categorias = get_db().execute(
         'SELECT * FROM categoria',
     ).fetchall()
@@ -31,6 +36,7 @@ def create():
         estado_conservacao = request.form['estado_conservacao']
         url_foto_material = request.form['url_foto_material']
         categoria = request.form['categoria']
+        localizacao_fisica = request.form['localizacao_fisica']
         error = None
 
         if not descricao:
@@ -51,14 +57,14 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO materiais_didaticos (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, categoria)'
-                ' VALUES (?, ?, ?, ?, ?, ?)',
-                (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, categoria)
+                'INSERT INTO materiais_didaticos (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, categoria, localizacao_fisica)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+                (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, categoria, localizacao_fisica)
             )
             db.commit()
             return redirect(url_for('didatico.index'))
 
-    return render_template('Didaticos/create.html', categorias=categorias)
+    return render_template('Didaticos/create.html', categorias=categorias, locais=locais)
 
 @bp.route('/update/<int:ID>', methods=('GET', 'POST'))
 @login_required
@@ -73,6 +79,10 @@ def update(ID):
     categorias = get_db().execute(
         'SELECT * FROM categoria',
     ).fetchall()
+
+    locais = get_db().execute(
+        'SELECT * FROM local_fisico',
+    ).fetchall()
     
     if request.method == 'POST':
         descricao = request.form['descricao']
@@ -80,6 +90,8 @@ def update(ID):
         data_aquisicao = request.form['data_aquisicao']
         estado_conservacao = request.form['estado_conservacao']
         url_foto_material = request.form['url_foto_material']
+        localizacao_fisica = request.form['localizacao_fisica']
+        categoria = request.form['categoria']
         error = None
 
         if not descricao:
@@ -90,22 +102,20 @@ def update(ID):
             error = 'data_aquisicao is required.'
         elif not estado_conservacao:
             error = 'estado_conservacao is required.'
-        elif not url_foto_material:
-            error = 'url_foto_material is required.'
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'UPDATE materiais_didaticos SET descricao = ?, numero_serie = ?, data_aquisicao = ?, estado_conservacao = ?, url_foto_material = ?'
+                'UPDATE materiais_didaticos SET descricao = ?, numero_serie = ?, data_aquisicao = ?, estado_conservacao = ?, url_foto_material = ?, localizacao_fisica = ?, categoria = ?'
                 ' WHERE ID = ?',
-                (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, ID)
+                (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, localizacao_fisica, categoria, ID)
             )
             db.commit()
             return redirect(url_for('didatico.index'))
 
-    return render_template('Didaticos/update.html', didatico=didatico, categorias=categorias)
+    return render_template('Didaticos/update.html', didatico=didatico, categorias=categorias, locais=locais)
 
 @bp.route('/delete/<int:ID>', methods=('POST',))
 @login_required

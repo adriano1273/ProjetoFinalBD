@@ -12,8 +12,8 @@ bp = Blueprint('local', __name__, url_prefix='/locais')
 @bp.route('/')
 def index():
     db = get_db()
-    categorias = db.execute('SELECT * FROM local_fisico').fetchall()
-    return render_template('Fisico/index.html', fisico=fisico)
+    locais = db.execute('SELECT * FROM local_fisico').fetchall()
+    return render_template('Local/index.html', locais=locais)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -36,16 +36,16 @@ def create():
                 (nome,)
             )
             db.commit()
-            return redirect(url_for('fisico.index'))
+            return redirect(url_for('local.index'))
 
-    return render_template('Fisico/create.html')
+    return render_template('Local/create.html')
 
 @bp.route('/update/<int:id>', methods=('GET', 'POST'))
 @login_required
 @admin_required
 def update(id):
 
-    categoria = get_db().execute(
+    local = get_db().execute(
         'SELECT * FROM local_fisico WHERE id = ?',
         (id,)
     ).fetchone()
@@ -67,9 +67,9 @@ def update(id):
                 (nome, id)
             )
             db.commit()
-            return redirect(url_for('fisico.index'))
+            return redirect(url_for('local.index'))
 
-    return render_template('Fisico/update.html', fisico=fisico)
+    return render_template('Local/update.html', local=local)
 
 @bp.route('/delete/<int:id>', methods=('POST',))
 @login_required
@@ -78,4 +78,4 @@ def delete(id):
     db = get_db()
     db.execute('DELETE FROM local_fisico WHERE id = ?', (id,))
     db.commit()
-    return redirect(url_for('fisico.index'))
+    return redirect(url_for('local.index'))

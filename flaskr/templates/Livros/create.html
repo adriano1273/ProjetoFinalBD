@@ -24,17 +24,29 @@
     <label for="url_foto_capa">URL da Foto da Capa</label>
     <input name="url_foto_capa" id="url_foto_capa" value="{{ request.form['url_foto_capa'] }}">
 
-    <label for="localizacao_fisica">Localização Física</label>
-    <input name="localizacao_fisica" id="localizacao_fisica" value="{{ request.form['localizacao_fisica'] }}">
-
     <label for="categoria">Categoria</label>
     <select id="categoria" name="categoria">
         {% for categoria in categorias %}
             <option value="{{ categoria['id'] }}">{{ categoria['nome'] }}</option>
         {% endfor %}
     </select>
+
+    <label for="localizacao_fisica" style="margin-top: 15px;">Local físico</label>
+    <select id="localizacao_fisica" name="localizacao_fisica">
+        {% for local in locais %}
+            <option value="{{ local['id'] }}">{{ local['nome'] }}</option>
+        {% endfor %}
+    </select>
     <p></p>
 
     <input type="submit" value="Save" required>
 </form>
+<button>
+    <a 
+        style="text-decoration: none; padding: 0 42px;" 
+        href="{{url_for('livro.index')}}"
+    >
+        Voltar
+    </a>
+</button>
 {% endblock %}
