@@ -1,10 +1,9 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
 
-from flaskr.auth import login_required
-from flaskr.auth import admin_required
+from flaskr.auth import login_required, admin_required
 from flaskr.db import get_db
 
 bp = Blueprint('livro', __name__, url_prefix='/livros')
@@ -13,15 +12,27 @@ bp = Blueprint('livro', __name__, url_prefix='/livros')
 def index():
     db = get_db()
     livros = db.execute('SELECT * FROM livro').fetchall()
-    return render_template('Livros/index.html', livros=livros)
+    categorias = db.execute('SELECT * FROM categoria').fetchall()
+    return render_template('Livros/index.html', livros=livros, categorias=categorias)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 @admin_required
 def create():
+    categorias = get_db().execute(
+        'SELECT * FROM categoria',
+    ).fetchall()
+
     if request.method == 'POST':
         titulo = request.form['titulo']
         autor = request.form['autor']
+        descricao = request.form['descricao']
+        data_aquisicao = request.form['data_aquisicao']
+        estado_conservacao = request.form['estado_conservacao']
+        url_foto_capa = request.form['url_foto_capa']
+        localizacao_fisica = request.form['localizacao_fisica']
+        categoria = request.form['categoria']
+
         error = None
 
         if not titulo:
@@ -30,34 +41,44 @@ def create():
         if not autor:
             error = 'Autor is required.'
 
+        # Add similar checks for other fields as needed
+
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO livro (titulo, autor)'
-                ' VALUES (?, ?)',
-                (titulo, autor)
+                'INSERT INTO livro (titulo, autor, descricao, data_aquisicao, estado_conservacao, url_foto_capa, localizacao_fisica, categoria)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (titulo, autor, descricao, data_aquisicao, estado_conservacao, url_foto_capa, localizacao_fisica, categoria)
             )
             db.commit()
             return redirect(url_for('livro.index'))
 
-    return render_template('Livros/create.html')
+    return render_template('Livros/create.html', categorias=categorias)
 
 @bp.route('/update/<int:ISBN>', methods=('GET', 'POST'))
 @login_required
 @admin_required
 def update(ISBN):
-
     livro = get_db().execute(
         'SELECT * FROM livro WHERE ISBN = ?',
         (ISBN,)
     ).fetchone()
-    
+
+    categorias = get_db().execute(
+        'SELECT * FROM categoria',
+    ).fetchall()
+
     if request.method == 'POST':
         titulo = request.form['titulo']
         autor = request.form['autor']
         descricao = request.form['descricao']
+        data_aquisicao = request.form['data_aquisicao']
+        estado_conservacao = request.form['estado_conservacao']
+        url_foto_capa = request.form['url_foto_capa']
+        localizacao_fisica = request.form['localizacao_fisica']
+        categoria = request.form['categoria']
 
         error = None
 
@@ -67,22 +88,24 @@ def update(ISBN):
         if not autor:
             error = 'Autor is required.'
 
+        # Add similar checks for other fields as needed
+
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'UPDATE livro SET titulo = ?, autor = ?, descricao = ?'
+                'UPDATE livro SET titulo = ?, autor = ?, descricao = ?, data_aquisicao = ?, estado_conservacao = ?, url_foto_capa = ?, localizacao_fisica = ?, categoria = ?'
                 ' WHERE ISBN = ?',
-                (titulo, autor, descricao, ISBN)
+                (titulo, autor, descricao, data_aquisicao, estado_conservacao, url_foto_capa, localizacao_fisica, categoria, ISBN)
             )
             db.commit()
             return redirect(url_for('livro.index'))
 
-    return render_template('Livros/update.html', livro=livro)
+    return render_template('Livros/update.html', livro=livro, categorias=categorias)
 
 @bp.route('/delete/<int:ISBN>', methods=('POST',))
-@login_required 
+@login_required
 @admin_required
 def delete(ISBN):
     db = get_db()

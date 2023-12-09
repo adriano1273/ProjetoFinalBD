@@ -21,6 +21,13 @@
     <label for="url_foto_material">URL da Foto do Material</label>
     <input name="url_foto_material" id="url_foto_material" value="{{ request.form['url_foto_material'] }}" required>
 
+    <label for="categoria">Categoria:</label>
+    <select id="categoria" name="categoria">
+        {% for categoria in categorias %}
+            <option value="{{ categoria['id'] }}">{{ categoria['nome'] }}</option>
+        {% endfor %}
+    </select>
+    <p></p>
     <input type="submit" value="Save" required>
 </form>
 {% endblock %}
