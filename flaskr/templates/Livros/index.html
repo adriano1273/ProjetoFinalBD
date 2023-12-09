@@ -30,6 +30,11 @@
                     <p>Categoria: {{ categoria['nome'] }}</p>
                 {% endif %}
             {% endfor %}
+            {% for local in locais %}
+                {% if local['id'] == livro['localizacao_fisica'] %}
+                   <p>local: {{ local['nome'] }}</p>
+                {% endif %}
+            {% endfor %}
         </div>
     </header>
     <p></p>

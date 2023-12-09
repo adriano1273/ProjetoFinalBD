@@ -21,10 +21,38 @@
     <label for="url_foto_material">URL da Foto do Material</label>
     <input name="url_foto_material" id="url_foto_material" value="{{ request.form['url_foto_material'] or didatico['url_foto_material'] }}" required>
 
+    <label for="categoria">Categoria</label>
+    <select id="categoria" name="categoria">
+        {% for categoria in categorias %}
+            <option value="{{ categoria['id'] }}" {% if categoria['id'] == didatico['categoria'] %}selected{% endif %}>
+                {{ categoria['nome'] }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="localizacao_fisica" style="margin-top: 15px;">Local físico</label>
+        <select id="localizacao_fisica" name="localizacao_fisica">
+            {% for local in locais %}
+                <option value="{{ local['id'] }}" {% if local['id'] == didatico['localizacao_fisica'] %}selected{% endif %}>
+                    {{ local['nome'] }}
+                </option>
+            {% endfor %}
+        </select>
+    <p></p>
+
     <input type="submit" value="Save" required>
 </form>
 <hr>
 <form action="{{ url_for('didatico.delete', ID=didatico['ID']) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
 </form>
+
+<button>
+    <a 
+        style="text-decoration: none; padding: 0 42px;" 
+        href="{{url_for('didatico.index')}}"
+    >
+        Voltar
+    </a>
+</button>
 {% endblock %}

@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Categorias{% endblock %}</h1>
+<h1>{% block title %}Locais físicos{% endblock %}</h1>
 {% if g.user['funcao'] == 'admin' %}
-<a class="action" href="{{ url_for('categoria.create') }}">Nova categoria</a>
+<a class="action" href="{{ url_for('local.create') }}">Novo local</a>
 {% endif %}
 {% endblock %}
 
 {% block content %}
-{% for categoria in categorias %}
-<article class="fisco">
+{% for local in locais %}
+<article class="local">
     <header>
         <div>
-            <h1>{{ fisico['nome'] }}</h1>
+            <h1>{{ local['nome'] }}</h1>
             <p></p>
         </div>
     </header>
     {% if g.user['funcao'] == 'admin' %}
-    <a class="action" href="{{ url_for('fisico.update', id=fisico['id']) }}">Editar</a>
+    <a class="action" href="{{ url_for('local.update', id=local['id']) }}">Editar</a>
     {% endif %}
 </article>
 {% if not loop.last %}

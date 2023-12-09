@@ -13,7 +13,8 @@ def index():
     db = get_db()
     livros = db.execute('SELECT * FROM livro').fetchall()
     categorias = db.execute('SELECT * FROM categoria').fetchall()
-    return render_template('Livros/index.html', livros=livros, categorias=categorias)
+    locais = db.execute('SELECT * FROM local_fisico').fetchall()
+    return render_template('Livros/index.html', livros=livros, categorias=categorias, locais=locais)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -21,6 +22,10 @@ def index():
 def create():
     categorias = get_db().execute(
         'SELECT * FROM categoria',
+    ).fetchall()
+
+    locais = get_db().execute(
+        'SELECT * FROM local_fisico',
     ).fetchall()
 
     if request.method == 'POST':
@@ -55,7 +60,7 @@ def create():
             db.commit()
             return redirect(url_for('livro.index'))
 
-    return render_template('Livros/create.html', categorias=categorias)
+    return render_template('Livros/create.html', categorias=categorias, locais=locais)
 
 @bp.route('/update/<int:ISBN>', methods=('GET', 'POST'))
 @login_required
@@ -68,6 +73,10 @@ def update(ISBN):
 
     categorias = get_db().execute(
         'SELECT * FROM categoria',
+    ).fetchall()
+
+    locais = get_db().execute(
+        'SELECT * FROM local_fisico',
     ).fetchall()
 
     if request.method == 'POST':
@@ -102,7 +111,7 @@ def update(ISBN):
             db.commit()
             return redirect(url_for('livro.index'))
 
-    return render_template('Livros/update.html', livro=livro, categorias=categorias)
+    return render_template('Livros/update.html', livro=livro, categorias=categorias, locais=locais)
 
 @bp.route('/delete/<int:ISBN>', methods=('POST',))
 @login_required
