@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Editar "{{ categoria['nome'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="nome">Categoria</label>
+    <input name="nome" id="nome" value="{{ request.form['nome'] or categoria['nome'] }}" required>
+
+    <input type="submit" value="Save" required>
+</form>
+<hr>
+<form action="{{ url_for('categoria.delete', id=categoria['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
+</form>
+{% endblock %}

@@ -13,13 +13,25 @@
     <header>
         <div>
             <h1>{{ livro['titulo'] }}</h1>
+            {% if livro['url_foto_capa'] %}
+            <img src="{{livro['url_foto_capa']}}" style="max-width: 200px;" />
+            <p></p>
+            {% endif %}
             <div class="about">de: {{ livro['autor'] }}</div>
             <p></p>
             <div class="from">data da aquisição: {{ livro['data_aquisicao'] }}</div>
             <p></p>
+            <div>descrição: {{ livro['descricao'] }}</div>
+            <p></p>
+            <div>Estado de conservação: {{ livro['estado_conservacao'] }}</div>
+            <p></p>
+            {% for categoria in categorias %}
+                {% if categoria['id'] == livro['categoria'] %}
+                    <p>Categoria: {{ categoria['nome'] }}</p>
+                {% endif %}
+            {% endfor %}
         </div>
     </header>
-    <p class="body">{{ livro['descricao'] }}</p>
     <p></p>
     {% if g.user['funcao'] == 'admin' %}
     <a class="action" href="{{ url_for('livro.update', ISBN=livro['ISBN']) }}">Editar</a>

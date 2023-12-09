@@ -13,19 +13,24 @@ bp = Blueprint('didatico', __name__, url_prefix='/didaticos')
 def index():
     db = get_db()
     didaticos = db.execute('SELECT * FROM materiais_didaticos').fetchall()
-    categorias = db.execute('SELECT * FROM categorias').fetchall()
+    categorias = db.execute('SELECT * FROM categoria').fetchall()
     return render_template('Didaticos/index.html', didaticos=didaticos, categorias=categorias)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 @admin_required
 def create():
+    categorias = get_db().execute(
+        'SELECT * FROM categoria',
+    ).fetchall()
+
     if request.method == 'POST':
         descricao = request.form['descricao']
         numero_serie = request.form['numero_serie']
         data_aquisicao = request.form['data_aquisicao']
         estado_conservacao = request.form['estado_conservacao']
         url_foto_material = request.form['url_foto_material']
+        categoria = request.form['categoria']
         error = None
 
         if not descricao:
@@ -38,20 +43,22 @@ def create():
             error = 'estado_conservacao is required.'
         elif not url_foto_material:
             error = 'url_foto_material is required.'
+        elif not categoria:
+            error = 'categoria is required.'
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO materiais_didaticos (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material)'
-                ' VALUES (?, ?, ?, ?, ?)',
-                (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material)
+                'INSERT INTO materiais_didaticos (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, categoria)'
+                ' VALUES (?, ?, ?, ?, ?, ?)',
+                (descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, categoria)
             )
             db.commit()
             return redirect(url_for('didatico.index'))
 
-    return render_template('Didaticos/create.html')
+    return render_template('Didaticos/create.html', categorias=categorias)
 
 @bp.route('/update/<int:ID>', methods=('GET', 'POST'))
 @login_required
@@ -64,8 +71,8 @@ def update(ID):
     ).fetchone()
 
     categorias = get_db().execute(
-        'SELECT * FROM categorias',
-    ).fetchone()
+        'SELECT * FROM categoria',
+    ).fetchall()
     
     if request.method == 'POST':
         descricao = request.form['descricao']

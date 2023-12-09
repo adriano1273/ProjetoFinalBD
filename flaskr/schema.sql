@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS usuario;
 
 -- Table: Categoria
 CREATE TABLE IF NOT EXISTS categoria (
-    id PRIMARY KEY UNIQUE NOT NULL,
-    nome NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    nome TEXT NOT NULL
 );
 
 -- Table: Emprestimo

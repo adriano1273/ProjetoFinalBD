@@ -35,6 +35,9 @@ def create_app(test_config=None):
     from . import didatico
     app.register_blueprint(didatico.bp)
 
+    from . import categoria
+    app.register_blueprint(categoria.bp)
+
     from . import home
     app.register_blueprint(home.bp)
     
