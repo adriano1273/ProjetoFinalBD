@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS local_fisico (
 CREATE TABLE IF NOT EXISTS materiais_didaticos (
     ID INTEGER PRIMARY KEY UNIQUE NOT NULL,
     descricao TEXT,
-    numero_serie INTEGER,
+    numero_serie TEXT,
     data_aquisicao DATE,
     estado_conservacao TEXT,
     url_foto_material TEXT,
