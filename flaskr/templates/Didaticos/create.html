@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Novo material didático{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="descricao">Material didático</label>
+    <input name="descricao" id="descricao" value="{{ request.form['descricao'] }}" required>
+
+    <label for="numero_serie">Número de Série</label>
+    <input name="numero_serie" id="numero_serie" value="{{ request.form['numero_serie'] }}" required>
+
+    <label for="data_aquisicao">Data de Aquisição</label>
+    <input type="date" name="data_aquisicao" id="data_aquisicao" value="{{ request.form['data_aquisicao'] }}" required>
+
+    <label for="estado_conservacao">Estado de Conservação</label>
+    <input name="estado_conservacao" id="estado_conservacao" value="{{ request.form['estado_conservacao'] }}" required>
+
+    <label for="url_foto_material">URL da Foto do Material</label>
+    <input name="url_foto_material" id="url_foto_material" value="{{ request.form['url_foto_material'] }}" required>
+
+    <input type="submit" value="Save" required>
+</form>
+{% endblock %}

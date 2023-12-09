@@ -32,6 +32,9 @@ def create_app(test_config=None):
     from . import livro
     app.register_blueprint(livro.bp)
 
+    from . import didatico
+    app.register_blueprint(didatico.bp)
+
     from . import home
     app.register_blueprint(home.bp)
     
