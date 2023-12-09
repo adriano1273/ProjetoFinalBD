@@ -9,8 +9,8 @@
     id_usuario = {{ id_usuario }}
 </h2>
 <form method="post">
-    <label for="id_didatico">Material Didatico</label>
-    <select id="id_didatico" name="id_didatico" required>
+    <label for="id_material">Material Didatico</label>
+    <select id="id_material" name="id_material" required>
         <option value="">Selecione um Material Didatico</option>
         {% for didatico in didaticos %}
         <option value="{{ didatico['ID'] }}">{{ didatico['descricao'] }}</option>

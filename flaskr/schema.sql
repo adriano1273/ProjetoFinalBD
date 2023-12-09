@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS emprestimo (
 
 -- Table: Item_emprestimo
 CREATE TABLE IF NOT EXISTS item_emprestimo (
-    id PRIMARY KEY UNIQUE NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
     id_livro REFERENCES Livro (ISBN),
     id_material REFERENCES materiais_didaticos (ID)
 );
