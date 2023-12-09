@@ -3,6 +3,8 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
+from flaskr.auth import login_required
+from flaskr.auth import admin_required
 from flaskr.db import get_db
 
 bp = Blueprint('didatico', __name__, url_prefix='/didaticos')
@@ -14,6 +16,8 @@ def index():
     return render_template('Didaticos/index.html', didaticos=didaticos)
 
 @bp.route('/create', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def create():
     if request.method == 'POST':
         descricao = request.form['descricao']
@@ -49,6 +53,8 @@ def create():
     return render_template('Didaticos/create.html')
 
 @bp.route('/update/<int:ID>', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def update(ID):
 
     didatico = get_db().execute(
@@ -90,6 +96,8 @@ def update(ID):
     return render_template('Didaticos/update.html', didatico=didatico)
 
 @bp.route('/delete/<int:ID>', methods=('POST',))
+@login_required
+@admin_required
 def delete(ID):
     db = get_db()
     db.execute('DELETE FROM materiais_didaticos WHERE ID = ?', (ID,))
