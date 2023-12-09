@@ -13,7 +13,8 @@ bp = Blueprint('didatico', __name__, url_prefix='/didaticos')
 def index():
     db = get_db()
     didaticos = db.execute('SELECT * FROM materiais_didaticos').fetchall()
-    return render_template('Didaticos/index.html', didaticos=didaticos)
+    categorias = db.execute('SELECT * FROM categorias').fetchall()
+    return render_template('Didaticos/index.html', didaticos=didaticos, categorias=categorias)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -61,6 +62,10 @@ def update(ID):
         'SELECT * FROM materiais_didaticos WHERE ID = ?',
         (ID,)
     ).fetchone()
+
+    categorias = get_db().execute(
+        'SELECT * FROM categorias',
+    ).fetchone()
     
     if request.method == 'POST':
         descricao = request.form['descricao']
@@ -93,7 +98,7 @@ def update(ID):
             db.commit()
             return redirect(url_for('didatico.index'))
 
-    return render_template('Didaticos/update.html', didatico=didatico)
+    return render_template('Didaticos/update.html', didatico=didatico, categorias=categorias)
 
 @bp.route('/delete/<int:ID>', methods=('POST',))
 @login_required

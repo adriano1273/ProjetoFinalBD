@@ -19,6 +19,12 @@
             <p>número de série: {{ didatico['numero_serie'] }}</p>
             <p>data da aquisição: {{ didatico['data_aquisicao'] }}</p>
             <p>estado de conservação: {{ didatico['estado_conservacao'] }}</p>
+
+            <select id="categoria" name="categoria">
+                {% for categoria in categorias %}
+                    <option value="{{categoria[id]}}">{{ categoria['nome'] }}</option>
+                {% endfor %}
+            </select>
         </div>
     </header>
     {% if g.user['funcao'] == 'admin' %}
