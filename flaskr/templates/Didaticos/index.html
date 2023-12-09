@@ -2,7 +2,9 @@
 
 {% block header %}
 <h1>{% block title %}Materiais didáticos{% endblock %}</h1>
+{% if g.user['funcao'] == 'admin' %}
 <a class="action" href="{{ url_for('didatico.create') }}">Novo Material didático</a>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -12,14 +14,16 @@
         <div>
             <h1>{{ didatico['descricao'] }}</h1>
             {% if didatico['url_foto_material'] %}
-            <img src="{{didatico['url_foto_material']}}" style="max-width: 200px;"/>
+            <img src="{{didatico['url_foto_material']}}" style="max-width: 200px;" />
             {% endif %}
             <p>número de série: {{ didatico['numero_serie'] }}</p>
             <p>data da aquisição: {{ didatico['data_aquisicao'] }}</p>
             <p>estado de conservação: {{ didatico['estado_conservacao'] }}</p>
         </div>
     </header>
+    {% if g.user['funcao'] == 'admin' %}
     <a class="action" href="{{ url_for('didatico.update', ID=didatico['ID']) }}">Editar</a>
+    {% endif %}
 </article>
 {% if not loop.last %}
 <hr>

@@ -1,6 +1,7 @@
 import sqlite3
 
 import click
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask import current_app, g
 
 def get_db():
@@ -28,6 +29,17 @@ def init_db():
 
     with current_app.open_resource('seed.sql') as f:
         db.executescript(f.read().decode('utf8'))
+
+    nome = 'admin'
+    funcao = 'admin'
+    login = 'admin'
+    senha = 'admin'
+
+    db.execute(
+    "INSERT INTO Usuario (nome, funcao, login, senha) VALUES (?, ?, ?, ?)",
+    (nome, funcao, login, generate_password_hash(senha)),
+    )
+    db.commit()
 
 @click.command('init-db')
 def init_db_command():

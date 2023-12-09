@@ -31,6 +31,6 @@ INSERT INTO Materiais_didaticos (ID, descricao, numero_serie, data_aquisicao, es
 INSERT INTO Materiais_didaticos (ID, descricao, numero_serie, data_aquisicao, estado_conservacao, url_foto_material, localizacao_fisica, categoria) VALUES (3, 'kit de experimentos', 'LMN5678-QWER-90', '2023-11-12', 'desgastado', NULL, 4, 4);
 
 -- Table: Usuario
-INSERT INTO Usuario (ID, nome, sobrenome, funcao, login, senha, url_foto) VALUES (1, 'João', 'Silva', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', '');
+INSERT INTO Usuario (ID, nome, sobrenome, funcao, login, senha, url_foto) VALUES (1, 'João', 'Silva', 'membro', 'membro', '21232f297a57a5a743894a0e4a801fc3', '');
 INSERT INTO Usuario (ID, nome, sobrenome, funcao, login, senha, url_foto) VALUES (2, 'José', 'Souza', 'membro', 'login', 'e8d95a51f3af4a3b134bf6bb680a213a', '');
 INSERT INTO Usuario (ID, nome, sobrenome, funcao, login, senha, url_foto) VALUES (3, 'Maria', 'Pereira', 'membro', 'maria', '34ae07655b9a94e90556aff79bfd60b0', '');
