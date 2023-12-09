@@ -73,6 +73,7 @@ def select():
 @admin_required
 def createBookBorrow(id_usuario):
     db = get_db()
+    cursor = db.cursor()
     livros = db.execute('SELECT * FROM livro').fetchall()
 
     if request.method == 'POST':
@@ -97,7 +98,24 @@ def createBookBorrow(id_usuario):
         if error is not None:
             flash(error)
         else:
-            id_item = id_livro
+
+            # verificar se ja exitem items_emprestimos com o id do livro em questao
+
+            itens_emprestados = db.execute('SELECT * FROM item_emprestimo WHERE livro_id = ?',
+            (id_livro,)).fetchall()
+
+            for item_emprestado in itens_emprestados
+
+
+            db.execute(
+                'INSERT INTO item_emprestimo (id_livro, id_material)'
+                ' VALUES (?, ?)',
+                (id_livro, None)
+            )
+
+            last_inserted_id = cursor.lastrowid
+            item_id = last_inserted_id
+
             db.execute(
                 'INSERT INTO emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status)'
                 ' VALUES (?, ?, ?, ?, ?)',
