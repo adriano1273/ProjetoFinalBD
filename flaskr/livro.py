@@ -3,6 +3,8 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
+from flaskr.auth import login_required
+from flaskr.auth import admin_required
 from flaskr.db import get_db
 
 bp = Blueprint('livro', __name__, url_prefix='/livros')
@@ -14,6 +16,8 @@ def index():
     return render_template('Livros/index.html', livros=livros)
 
 @bp.route('/create', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def create():
     if request.method == 'POST':
         titulo = request.form['titulo']
@@ -41,6 +45,8 @@ def create():
     return render_template('Livros/create.html')
 
 @bp.route('/update/<int:ISBN>', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def update(ISBN):
 
     livro = get_db().execute(
@@ -76,6 +82,8 @@ def update(ISBN):
     return render_template('Livros/update.html', livro=livro)
 
 @bp.route('/delete/<int:ISBN>', methods=('POST',))
+@login_required 
+@admin_required
 def delete(ISBN):
     db = get_db()
     db.execute('DELETE FROM livro WHERE ISBN = ?', (ISBN,))
