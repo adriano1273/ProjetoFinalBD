@@ -9,15 +9,15 @@
 
 {% block content %}
 {% for categoria in categorias %}
-<article class="categoria">
+<article class="fisco">
     <header>
         <div>
-            <h1>{{ categoria['nome'] }}</h1>
+            <h1>{{ fisico['nome'] }}</h1>
             <p></p>
         </div>
     </header>
     {% if g.user['funcao'] == 'admin' %}
-    <a class="action" href="{{ url_for('categoria.update', id=categoria['id']) }}">Editar</a>
+    <a class="action" href="{{ url_for('fisico.update', id=fisico['id']) }}">Editar</a>
     {% endif %}
 </article>
 {% if not loop.last %}
