@@ -100,6 +100,12 @@ def update(ID):
 @admin_required
 def delete(ID):
     db = get_db()
+
+    items_deleted = db.execute('SELECT * FROM item_emprestimo WHERE id_material = ?', (ID,)).fetchall()
+
+    for item in items_deleted:
+        db.execute('DELETE FROM emprestimo WHERE id_item = ?', (item['id'],))
+
     db.execute('DELETE FROM materiais_didaticos WHERE ID = ?', (ID,))
     db.commit()
     return redirect(url_for('didatico.index'))
