@@ -16,7 +16,10 @@
         - Aquisição: {{ emprestimo['data_emprestimo'].strftime('%d/%m/%Y') }}
         - Devolução: {{ emprestimo['data_devolucao'].strftime('%d/%m/%Y') }}
     </li>
-
+    <p></p>
+    {% if g.user['funcao'] == 'admin' %}
+    <a class="action" href="{{ url_for('emprestimo.update') }}">Editar</a>
+    {% endif %}
     <hr />
     {% endfor %}
 </ul>

@@ -11,10 +11,10 @@ INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, st
 INSERT INTO Emprestimo (id_item, id_usuario, data_emprestimo, data_devolucao, status) VALUES (4, 1, '2022-05-09', '2022-06-12', 'Emprestado');
 
 -- Table: Item_emprestimo
-INSERT INTO Item_emprestimo (id, id_livro, id_material) VALUES (1, 1, NULL);
-INSERT INTO Item_emprestimo (id, id_livro, id_material) VALUES (2, NULL, 2);
-INSERT INTO Item_emprestimo (id, id_livro, id_material) VALUES (3, 3, NULL);
-INSERT INTO Item_emprestimo (id, id_livro, id_material) VALUES (4, NULL, 2);
+INSERT INTO Item_emprestimo (id_livro, id_material) VALUES (1, NULL);
+INSERT INTO Item_emprestimo (id_livro, id_material) VALUES (NULL, 2);
+INSERT INTO Item_emprestimo (id_livro, id_material) VALUES (3, NULL);
+INSERT INTO Item_emprestimo (id_livro, id_material) VALUES (NULL, 2);
 
 -- Table: Livro
 INSERT INTO Livro (ISBN, titulo, autor, descricao, data_aquisicao, estado_conservacao, url_foto_capa, localizacao_fisica, categoria) VALUES (1, '1984', 'George Orwell', NULL, '2022-12-12', 'Novo', NULL, 3, 1);
