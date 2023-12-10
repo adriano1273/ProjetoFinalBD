@@ -18,16 +18,17 @@ CREATE TABLE IF NOT EXISTS emprestimo (
     data_emprestimo DATE NOT NULL,
     data_devolucao DATE NOT NULL,
     status TEXT,
-    id_item INTEGER NOT NULL REFERENCES item_emprestimo (id),
+    id_item INTEGER NOT NULL,
     PRIMARY KEY (id_usuario, id_item),
-    FOREIGN KEY (id_usuario) REFERENCES usuario (ID)
+    FOREIGN KEY (id_usuario) REFERENCES usuario (ID) ON DELETE CASCADE,
+    FOREIGN KEY (id_item) REFERENCES item_emprestimo (id) ON DELETE CASCADE
 );
 
 -- Table: Item_emprestimo
 CREATE TABLE IF NOT EXISTS item_emprestimo (
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    id_livro REFERENCES Livro (ISBN),
-    id_material REFERENCES materiais_didaticos (ID)
+    id_livro INTEGER REFERENCES Livro (ISBN) ON DELETE CASCADE,
+    id_material INTEGER REFERENCES materiais_didaticos (ID) ON DELETE CASCADE
 );
 
 -- Table: Livro
