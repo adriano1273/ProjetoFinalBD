@@ -38,6 +38,12 @@ def create_app(test_config=None):
     from . import emprestimo
     app.register_blueprint(emprestimo.bp)
 
+    from . import categoria
+    app.register_blueprint(categoria.bp)
+
+    from . import local
+    app.register_blueprint(local.bp)
+
     from . import home
     app.register_blueprint(home.bp)
     

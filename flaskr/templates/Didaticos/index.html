@@ -16,9 +16,20 @@
             {% if didatico['url_foto_material'] %}
             <img src="{{didatico['url_foto_material']}}" style="max-width: 200px;" />
             {% endif %}
-            <p>número de série: {{ didatico['numero_serie'] }}</p>
-            <p>data da aquisição: {{ didatico['data_aquisicao'] }}</p>
-            <p>estado de conservação: {{ didatico['estado_conservacao'] }}</p>
+            <p>Número de série: {{ didatico['numero_serie'] }}</p>
+            <p>Data da aquisição: {{ didatico['data_aquisicao'] }}</p>
+            <p>Estado de conservação: {{ didatico['estado_conservacao'] }}</p>
+            {% for categoria in categorias %}
+                {% if categoria['id'] == didatico['categoria'] %}
+                    <p>Categoria: {{ categoria['nome'] }}</p>
+                {% endif %}
+            {% endfor %}
+            {% for local in locais %}
+                {% if local['id'] == didatico['localizacao_fisica'] %}
+                    <p>local: {{ local['nome'] }}</p>
+                {% endif %}
+            {% endfor %}
+            <p></p>
         </div>
     </header>
     {% if g.user['funcao'] == 'admin' %}

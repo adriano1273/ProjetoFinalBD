@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Editar "{{ local['nome'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="nome">Local Fisico</label>
+    <input name="nome" id="nome" value="{{ request.form['nome'] or local['nome'] }}" required>
+
+    <input type="submit" value="Save" required>
+</form>
+<hr>
+<form action="{{ url_for('local.delete', id=local['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
+</form>
+<button>
+    <a 
+        style="text-decoration: none; padding: 0 42px;" 
+        href="{{url_for('local.index')}}"
+    >
+        Voltar
+    </a>
+</button>
+{% endblock %}

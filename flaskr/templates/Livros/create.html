@@ -8,8 +8,45 @@
 <form method="post">
     <label for="titulo">Titulo</label>
     <input name="titulo" id="titulo" value="{{ request.form['titulo'] }}" required>
+
     <label for="autor">Autor</label>
-    <textarea name="autor" id="autor">{{ request.form['autor'] }}</textarea>
+    <input name="autor" id="autor" value="{{ request.form['autor'] }}" required>
+
+    <label for="descricao">Descrição</label>
+    <textarea name="descricao" id="descricao">{{ request.form['descricao'] }}</textarea>
+
+    <label for="data_aquisicao">Data de Aquisição</label>
+    <input type="date" name="data_aquisicao" id="data_aquisicao" value="{{ request.form['data_aquisicao'] }}">
+
+    <label for="estado_conservacao">Estado de Conservação</label>
+    <input name="estado_conservacao" id="estado_conservacao" value="{{ request.form['estado_conservacao'] }}">
+
+    <label for="url_foto_capa">URL da Foto da Capa</label>
+    <input name="url_foto_capa" id="url_foto_capa" value="{{ request.form['url_foto_capa'] }}">
+
+    <label for="categoria">Categoria</label>
+    <select id="categoria" name="categoria">
+        {% for categoria in categorias %}
+            <option value="{{ categoria['id'] }}">{{ categoria['nome'] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="localizacao_fisica" style="margin-top: 15px;">Local físico</label>
+    <select id="localizacao_fisica" name="localizacao_fisica">
+        {% for local in locais %}
+            <option value="{{ local['id'] }}">{{ local['nome'] }}</option>
+        {% endfor %}
+    </select>
+    <p></p>
+
     <input type="submit" value="Save" required>
 </form>
+<button>
+    <a 
+        style="text-decoration: none; padding: 0 42px;" 
+        href="{{url_for('livro.index')}}"
+    >
+        Voltar
+    </a>
+</button>
 {% endblock %}

@@ -7,15 +7,54 @@
 {% block content %}
 <form method="post">
     <label for="titulo">Titulo</label>
-    <input name="titulo" id="titulo" value="{{ request.form['titulo'] or livro['titulo'] }}" required>
+    <input name="titulo" id="titulo" value="{{ request.form['titulo'] or livro['titulo'] }}">
+    
     <label for="autor">Autor</label>
-    <input name="autor" id="autor" value="{{ request.form['autor'] or livro['autor'] }}" required>
+    <input name="autor" id="autor" value="{{ request.form['autor'] or livro['autor'] }}">
+    
     <label for="descricao">Descricao</label>
     <textarea name="descricao" id="descricao">{{ request.form['descricao'] or livro['descricao'] }}</textarea>
+
+    <label for="data_aquisicao">Data de Aquisição</label>
+    <input type="date" name="data_aquisicao" id="data_aquisicao" value="{{ request.form['data_aquisicao'] or livro['data_aquisicao'] }}">
+
+    <label for="estado_conservacao">Estado de Conservação</label>
+    <input name="estado_conservacao" id="estado_conservacao" value="{{ request.form['estado_conservacao'] or livro['estado_conservacao'] }}">
+
+    <label for="url_foto_capa">URL da Foto da Capa</label>
+    <input name="url_foto_capa" id="url_foto_capa" value="{{ request.form['url_foto_capa'] or livro['url_foto_capa'] }}">
+
+    <label for="categoria">Categoria</label>
+    <select id="categoria" name="categoria">
+        {% for categoria in categorias %}
+            <option value="{{ categoria['id'] }}" {% if categoria['id'] == livro['categoria'] %}selected{% endif %}>
+                {{ categoria['nome'] }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="localizacao_fisica" style="margin-top: 15px;">Local físico</label>
+        <select id="localizacao_fisica" name="localizacao_fisica">
+            {% for local in locais %}
+                <option value="{{ local['id'] }}" {% if local['id'] == livro['localizacao_fisica'] %}selected{% endif %}>
+                    {{ local['nome'] }}
+                </option>
+            {% endfor %}
+        </select>
+    <p></p>
+
     <input type="submit" value="Save">
 </form>
 <hr>
 <form action="{{ url_for('livro.delete', ISBN=livro['ISBN']) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
 </form>
+<button>
+    <a 
+        style="text-decoration: none; padding: 0 42px;" 
+        href="{{url_for('livro.index')}}"
+    >
+        Voltar
+    </a>
+</button>
 {% endblock %}
