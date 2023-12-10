@@ -18,16 +18,16 @@ CREATE TABLE IF NOT EXISTS emprestimo (
     data_emprestimo DATE NOT NULL,
     data_devolucao DATE NOT NULL,
     status TEXT,
-    id_item INTEGER NOT NULL REFERENCES Item_emprestimo (id),
+    id_item INTEGER NOT NULL REFERENCES item_emprestimo (id),
     PRIMARY KEY (id_usuario, id_item),
-    FOREIGN KEY (id_usuario) REFERENCES Usuario (ID)
+    FOREIGN KEY (id_usuario) REFERENCES usuario (ID)
 );
 
 -- Table: Item_emprestimo
 CREATE TABLE IF NOT EXISTS item_emprestimo (
-    id PRIMARY KEY UNIQUE NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
     id_livro REFERENCES Livro (ISBN),
-    id_material REFERENCES Materiais_didaticos (ID)
+    id_material REFERENCES materiais_didaticos (ID)
 );
 
 -- Table: Livro
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS livro (
     data_aquisicao DATE,
     estado_conservacao TEXT,
     url_foto_capa TEXT,
-    localizacao_fisica INTEGER REFERENCES Local_fisico (id),
-    categoria INTEGER REFERENCES Categoria (id)
+    localizacao_fisica INTEGER REFERENCES local_fisico (id),
+    categoria INTEGER REFERENCES categoria (id)
 );
 
 -- Table: Local_fisico
@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS materiais_didaticos (
     data_aquisicao DATE,
     estado_conservacao TEXT,
     url_foto_material TEXT,
-    localizacao_fisica INTEGER REFERENCES Local_fisico (id),
-    categoria INTEGER REFERENCES Categoria (id)
+    localizacao_fisica INTEGER REFERENCES local_fisico (id),
+    categoria INTEGER REFERENCES categoria (id)
 );
 
 -- Table: Usuario

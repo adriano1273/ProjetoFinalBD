@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Emprestimos{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <ul>
+        <label for="usuario">Usauario</label>
+        <select id="usuario" name="usuario" required>
+            <option value="">Selecione um usuario</option>
+            {% for usuario in usuarios %}
+            <option value="{{ usuario['ID'] }}">{{ usuario['nome'] }}</option>
+            {% endfor %}
+        </select>
+        <hr>
+        <label for="item">Tipo de emprestimo</label>
+        <select id="item" name="item" required>
+            <option value="">Selecione uma opcao</option>
+            <option value="1">Livro</option>
+            <option value="2">Material Didatico</option>
+        </select>
+    </ul>
+    <p></p>
+    <div>
+        <input type="submit" value="Proximo" required>
+    </div>
+</form>
+<hr>
+{% endblock %}

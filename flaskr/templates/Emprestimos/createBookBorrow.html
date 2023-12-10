@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Emprestimo de Livro{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h2>
+    id_usuario = {{ id_usuario }}
+</h2>
+<form method="post">
+    <label for="livro">Livro</label>
+    <select id="id_livro" name="id_livro" required>
+        <option value="">Selecione um livro</option>
+        {% for livro in livros %}
+        <option value="{{ livro['ISBN'] }}">{{ livro['titulo'] }}</option>
+        {% endfor %}
+    </select>
+    <p></p>
+    <label for="data_emprestimo">Data de Emprestimo</label>
+    <input type="date" name="data_emprestimo" id="data_emprestimo" value="{{ request.form['data_emprestimo'] }}"
+        required>
+    <label for="data_devolucao">Data de Devolução</label>
+    <input type="date" name="data_devolucao" id="data_devolucao" value="{{ request.form['data_devolucao'] }}" required>
+    <label for="status">Status</label>
+    <input name="status" id="status" value="{{ request.form['status']  }}" required>
+    <input type="submit" value="Save" required>
+</form>
+{% endblock %}

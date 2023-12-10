@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Emprestimo de Didatico{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h2>
+    id_usuario = {{ id_usuario }}
+</h2>
+<form method="post">
+    <label for="id_material">Material Didatico</label>
+    <select id="id_material" name="id_material" required>
+        <option value="">Selecione um Material Didatico</option>
+        {% for didatico in didaticos %}
+        <option value="{{ didatico['ID'] }}">{{ didatico['descricao'] }}</option>
+        {% endfor %}
+    </select>
+    <p></p>
+    <label for="data_emprestimo">Data de Emprestimo</label>
+    <input type="date" name="data_emprestimo" id="data_emprestimo" value="{{ request.form['data_emprestimo'] }}">
+    <label for="data_emprestimo">Data de Devolução</label>
+    <input type="date" name="data_devolucao" id="data_devolucao" value="{{ request.form['data_devolucao'] }}">
+    <label for="status">Status</label>
+    <input name="status" id="status" value="{{ request.form['status']  }}" required>
+    <input type="submit" value="Save" required>
+</form>
+{% endblock %}

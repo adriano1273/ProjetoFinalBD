@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Emprestimos{% endblock %}</h1>
+{% if g.user['funcao'] == 'admin' %}
+<a class="action" href="{{ url_for('emprestimo.select') }}">Novo Emprestimo</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<ul>
+    {% for emprestimo in emprestimos %}
+    <li>
+        {{ item_nomes[emprestimo['id_item']] }} - {{ usuarios_nomes[emprestimo['id_item']] }} - {{ emprestimo['status']
+        }}
+        - Aquisição: {{ emprestimo['data_emprestimo'].strftime('%d/%m/%Y') }}
+        - Devolução: {{ emprestimo['data_devolucao'].strftime('%d/%m/%Y') }}
+    </li>
+    <p></p>
+    {% if g.user['funcao'] == 'admin' %}
+    <a class="action"
+        href="{{ url_for('emprestimo.update', id_usuario=emprestimo['id_usuario'], id_item=emprestimo['id_item']) }}">Editar</a>
+    {% endif %}
+    <hr />
+    {% endfor %}
+</ul>
+<hr>
+{% endblock %}
