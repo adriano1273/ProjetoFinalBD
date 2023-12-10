@@ -1,21 +1,26 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Editar "{{ livro['titulo'] }}"{% endblock %}</h1>
+<h1>{% block title %}Editar"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 <form method="post">
-    <label for="titulo">Titulo</label>
-    <input name="titulo" id="titulo" value="{{ request.form['titulo'] or livro['titulo'] }}" required>
-    <label for="autor">Autor</label>
-    <input name="autor" id="autor" value="{{ request.form['autor'] or livro['autor'] }}" required>
-    <label for="descricao">Descricao</label>
-    <textarea name="descricao" id="descricao">{{ request.form['descricao'] or livro['descricao'] }}</textarea>
+    <label for="status">Status</label>
+    <input name="status" id="status" value="{{ request.form['status'] or emprestimo['status'] }}" required>
+
+    <label for="data_emprestimo">Data de Emprestimo</label>
+    <input type="date" name="data_emprestimo" id="data_emprestimo"
+        value="{{ request.form['data_emprestimo'] or emprestimo['data_emprestimo'] }}">
+
+    <label for="data_devolucao">Data de Devolucao</label>
+    <input type="date" name="data_devolucao" id="data_devolucao"
+        value="{{ request.form['data_devolucao'] or emprestimo['data_devolucao'] }}">
     <input type="submit" value="Save">
 </form>
 <hr>
-<form action="{{ url_for('livro.delete', ISBN=livro['ISBN']) }}" method="post">
+<form action="{{ url_for('emprestimo.delete', id_usuario=emprestimo['id_usuario'], id_item=emprestimo['id_item']) }}"
+    method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
 </form>
 {% endblock %}

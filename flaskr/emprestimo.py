@@ -213,5 +213,48 @@ def createDidaticoBorrow(id_usuario):
 @bp.route('/update/<int:id_usuario>/<int:id_item>', methods=('GET', 'POST'))
 @login_required
 @admin_required
-def update():
-    return render_template('Emprestimos/update.html')
+def update(id_usuario, id_item):
+
+    emprestimo = get_db().execute(
+        'SELECT * FROM emprestimo WHERE id_usuario = ? AND id_item = ?',
+        (id_usuario, id_item)
+    ).fetchone() 
+
+    if request.method == 'POST':
+        status = request.form['status']
+        data_emprestimo = request.form['data_emprestimo']
+        data_devolucao = request.form['data_devolucao']
+
+        error = None
+
+        if not status:
+            error = 'Status is required.'
+
+        if not data_emprestimo:
+            error = 'Data de emprestimo is required.'
+
+        if not data_devolucao:
+            error = 'Data de devolucao is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'UPDATE emprestimo SET status = ?, data_emprestimo = ?, data_devolucao = ?'
+                ' WHERE id_usuario = ? AND id_item = ?',
+                (status, data_emprestimo, data_devolucao, id_usuario, id_item)
+            )
+            db.commit()
+            return redirect(url_for('emprestimo.index'))
+
+    return render_template('Emprestimos/update.html', emprestimo=emprestimo)
+
+@bp.route('/delete/<int:id_usuario>/<int:id_item>', methods=('POST',))
+@login_required 
+@admin_required
+def delete(id_usuario, id_item):
+    db = get_db()
+    db.execute('DELETE FROM emprestimo WHERE id_usuario = ? AND id_item = ?', (id_usuario, id_item))
+    db.commit()
+    return redirect(url_for('emprestimo.index'))
