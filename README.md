@@ -1,9 +1,11 @@
 # Projeto Final BD
 
+<p align="justify">
 Para auxiliar os estudantes e professores, o sistema gerencia livros de ensino e materiais didáticos em um laboratório. O sistema é projetado para organizar e disponibilizar esses
 recursos para empréstimo através de um sistema computacional. O foco principal desta especificação é a definição do banco de dados que é utilizado para armazenar informações sobre os
 livros e materiais. O sistema tem diferentes níveis de acesso para os usuários, de maneira que todos os usuários podem pesquisar os livros e materiais, mas apenas membros do
 laboratório podem pegar os materiais emprestados.
+</p>
 
 ## Tabela de Conteúdos
 - [Instalação](#instalação)
