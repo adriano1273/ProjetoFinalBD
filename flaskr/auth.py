@@ -22,7 +22,7 @@ def admin_required(view):
 def member_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if(g.user['funcao'] != 'admin' or  g.user['funcao'] != 'membro'):
+        if(g.user['funcao'] != 'admin' and  g.user['funcao'] != 'membro'):
             return render_template('Authentication/accessDenied.html')
 
         return view(**kwargs)
