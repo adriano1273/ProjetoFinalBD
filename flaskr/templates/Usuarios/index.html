@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Usuarios{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<ul>
+    {% for usuario in usuarios %}
+    <li>
+        {{ usuario['nome'] }} - {{ usuario['funcao'] }}
+    </li>
+    <p></p>
+    {% if g.user['funcao'] == 'admin' %}
+    <form action="{{ url_for('auth.delete', ID=usuario['ID']) }}" method="post">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
+    </form>
+    {% endif %}
+    <hr />
+    {% endfor %}
+</ul>
+<hr>
+{% endblock %}

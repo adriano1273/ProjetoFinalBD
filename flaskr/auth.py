@@ -115,3 +115,23 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return render_template('base.html')
+
+@bp.route('/', methods=('GET', 'POST'))
+@login_required
+@admin_required
+def index():
+    db = get_db()
+    usuarios = db.execute('SELECT * FROM usuario').fetchall()
+    
+    return render_template('Usuarios/index.html', usuarios=usuarios)
+
+@bp.route('/delete/<int:ID>', methods=('POST',))
+@login_required
+@admin_required
+def delete(ID):
+    db = get_db()
+    usuario_deletado = db.execute('SELECT * FROM usuario WHERE ID = ?', (ID,)).fetchone()
+    db.execute('DELETE FROM emprestimo WHERE id_usuario = ?', (usuario_deletado['ID'],))
+    db.execute('DELETE FROM usuario WHERE ID = ?', (ID,))
+    db.commit()
+    return redirect(url_for('auth.index'))
