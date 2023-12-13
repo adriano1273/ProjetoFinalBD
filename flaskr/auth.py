@@ -19,6 +19,26 @@ def admin_required(view):
 
     return wrapped_view
 
+def member_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if(g.user['funcao'] != 'admin' or  g.user['funcao'] != 'membro'):
+            return render_template('Authentication/accessDenied.html')
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
 @bp.route('/register', methods=('GET', 'POST'))
 @admin_required
 def register():
@@ -95,15 +115,3 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return render_template('base.html')
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
-
-

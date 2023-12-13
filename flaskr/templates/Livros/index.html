@@ -26,14 +26,14 @@
             <div>Estado de conservação: {{ livro['estado_conservacao'] }}</div>
             <p></p>
             {% for categoria in categorias %}
-                {% if categoria['id'] == livro['categoria'] %}
-                    <p>Categoria: {{ categoria['nome'] }}</p>
-                {% endif %}
+            {% if categoria['id'] == livro['categoria'] %}
+            <p>Categoria: {{ categoria['nome'] }}</p>
+            {% endif %}
             {% endfor %}
             {% for local in locais %}
-                {% if local['id'] == livro['localizacao_fisica'] %}
-                   <p>local: {{ local['nome'] }}</p>
-                {% endif %}
+            {% if local['id'] == livro['localizacao_fisica'] %}
+            <p>local: {{ local['nome'] }}</p>
+            {% endif %}
             {% endfor %}
         </div>
     </header>

@@ -2,7 +2,7 @@
 
 {% block header %}
 <h1>{% block title %}Emprestimos{% endblock %}</h1>
-{% if g.user['funcao'] == 'admin' %}
+{% if (g.user['funcao'] == 'admin' or g.user['funcao'] == 'membero') %}
 <a class="action" href="{{ url_for('emprestimo.select') }}">Novo Emprestimo</a>
 {% endif %}
 {% endblock %}

@@ -4,14 +4,14 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
-from flaskr.auth import admin_required
+from flaskr.auth import member_required
 from flaskr.db import get_db
 
 bp = Blueprint('emprestimo', __name__, url_prefix='/emprestimos')
 
 @bp.route('/')
 @login_required
-@admin_required
+@member_required
 def index():
     db = get_db()
     emprestimos = db.execute('SELECT * FROM emprestimo').fetchall()
@@ -43,7 +43,7 @@ def index():
 
 @bp.route('/select', methods=('GET', 'POST'))
 @login_required
-@admin_required
+@member_required
 def select():
     db = get_db()
     usuarios = db.execute('SELECT * FROM usuario').fetchall()
@@ -70,7 +70,7 @@ def select():
 
 @bp.route('/createBookBorrow/<int:id_usuario>', methods=('GET', 'POST'))
 @login_required
-@admin_required
+@member_required
 def createBookBorrow(id_usuario):
     db = get_db()
     cursor = db.cursor()
@@ -139,7 +139,7 @@ def createBookBorrow(id_usuario):
 
 @bp.route('/createDidaticoBorrow/<int:id_usuario>', methods=('GET', 'POST'))
 @login_required
-@admin_required
+@member_required
 def createDidaticoBorrow(id_usuario):
     db = get_db()
     cursor = db.cursor()
@@ -209,10 +209,9 @@ def createDidaticoBorrow(id_usuario):
     
     return render_template('Emprestimos/createDidaticoBorrow.html', id_usuario=id_usuario, didaticos=didaticos)
 
-
 @bp.route('/update/<int:id_usuario>/<int:id_item>', methods=('GET', 'POST'))
 @login_required
-@admin_required
+@member_required
 def update(id_usuario, id_item):
 
     emprestimo = get_db().execute(
@@ -252,7 +251,7 @@ def update(id_usuario, id_item):
 
 @bp.route('/delete/<int:id_usuario>/<int:id_item>', methods=('POST',))
 @login_required 
-@admin_required
+@member_required
 def delete(id_usuario, id_item):
     db = get_db()
     db.execute('DELETE FROM emprestimo WHERE id_usuario = ? AND id_item = ?', (id_usuario, id_item))
