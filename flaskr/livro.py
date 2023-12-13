@@ -8,13 +8,27 @@ from flaskr.db import get_db
 
 bp = Blueprint('livro', __name__, url_prefix='/livros')
 
-@bp.route('/')
+@bp.route('/', methods=('GET', 'POST'))
 def index():
     db = get_db()
     livros = db.execute('SELECT * FROM livro').fetchall()
     categorias = db.execute('SELECT * FROM categoria').fetchall()
     locais = db.execute('SELECT * FROM local_fisico').fetchall()
-    return render_template('Livros/index.html', livros=livros, categorias=categorias, locais=locais)
+    filtrados = None
+
+    if request.method == 'POST':
+        filtroLabel = request.form.get('filtroLabel')
+        filtro = request.form.get('filtro')
+
+        if filtro and filtroLabel:
+            query = f"SELECT * FROM livro WHERE {filtroLabel} = ?"
+            filtrados = db.execute(query, (filtro,)).fetchall()
+
+        if not filtrados:
+            flash("Nada encontrado com esses parâmetros")
+
+    return render_template('Livros/index.html', livros=livros, categorias=categorias, locais=locais, filtrados=filtrados)
+
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required

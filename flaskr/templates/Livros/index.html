@@ -8,6 +8,26 @@
 {% endblock %}
 
 {% block content %}
+<form method="POST">
+    <input type="text" name="filtro" placeholder="Pesquisar..." />
+
+    <div style="display: flex;">
+        <span style="color: #555">Filtrar por: </span>
+        
+        <input type="radio" name="filtroLabel" value="titulo">
+        <label for="titulo">Título</label><br>
+        <input type="radio" name="filtroLabel" value="autor">
+        <label for="autor">Autor</label><br>
+        <input type="radio" name="filtroLabel" value="descricao">
+        <label for="descricao">Descrição</label>
+        <input type="radio" name="filtroLabel" value="estado_conservacao">
+        <label for="estado_conservacao">Estado de conservação</label>
+    </div>
+
+    <input type="submit" value="Buscar" />
+</form>
+
+{% if not filtrados %}
 {% for livro in livros %}
 <article class="livro">
     <header>
@@ -46,4 +66,46 @@
 <hr>
 {% endif %}
 {% endfor %}
+
+{% elif filtrados %}
+{% for filtrado in filtrados %}
+<article class="livro">
+    <header>
+        <div>
+            <h1>{{ filtrado['titulo'] }}</h1>
+            {% if filtrado['url_foto_capa'] %}
+            <img src="{{filtrado['url_foto_capa']}}" style="max-width: 200px;" />
+            <p></p>
+            {% endif %}
+            <div class="about">de: {{ filtrado['autor'] }}</div>
+            <p></p>
+            <div class="from">data da aquisição: {{ filtrado['data_aquisicao'] }}</div>
+            <p></p>
+            <div>descrição: {{ filtrado['descricao'] }}</div>
+            <p></p>
+            <div>Estado de conservação: {{ filtrado['estado_conservacao'] }}</div>
+            <p></p>
+            {% for categoria in categorias %}
+            {% if categoria['id'] == filtrado['categoria'] %}
+            <p>Categoria: {{ categoria['nome'] }}</p>
+            {% endif %}
+            {% endfor %}
+            {% for local in locais %}
+            {% if local['id'] == filtrado['localizacao_fisica'] %}
+            <p>local: {{ local['nome'] }}</p>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </header>
+    <p></p>
+    {% if g.user['funcao'] == 'admin' %}
+    <a class="action" href="{{ url_for('livro.update', ISBN=filtrado['ISBN']) }}">Editar</a>
+    {% endif %}
+</article>
+{% if not loop.last %}
+<hr>
+{% endif %}
+{% endfor %}
+
+{% endif %}
 {% endblock %}
