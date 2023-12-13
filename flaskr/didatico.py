@@ -22,8 +22,8 @@ def index():
         filtro = request.form.get('filtro')
 
         if filtro and filtroLabel:
-            query = f"SELECT * FROM materiais_didaticos WHERE {filtroLabel} = ?"
-            filtrados = db.execute(query, (filtro,)).fetchall()
+            query = f"SELECT * FROM materiais_didaticos WHERE {filtroLabel} LIKE ?"
+            filtrados = db.execute(query, (f"%{filtro}%",)).fetchall()
 
         if not filtrados:
             flash("Nada encontrado com esses parâmetros")
